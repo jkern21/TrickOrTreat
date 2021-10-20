@@ -1,0 +1,72 @@
+
+/*Author: Jack Kern and Dayton Goslin
+ * Date: 10-18-21
+ * Purpose: A trick or treat game.
+ */
+package spoopyProject;
+import java.util.Scanner;
+
+
+public class TrickOrTreater {
+
+	public static void main(String[] args) {
+		ObjectTorTActions knock = new ObjectTorTActions();
+		Scanner in = new Scanner(System.in);
+		boolean End = false;
+		int treats = 0;
+		int chosenHouse = 0;
+		house[] Homes = new house[10];
+		String[] colors = {"Red", "Blue", "Green", "Yellow", "Orange", "Pink", "Brown", "Purple", "Black", "White"};
+		for(int i = 0; i < 10; i++) {
+			Homes[i] = new house(colors[i], false, i, false);
+		}
+		int randomTrick = (int) (Math.random() * 10);
+		Homes[randomTrick].ToT = true;
+		System.out.println("Welcome to the neighborhood. Get treats from 5 houses to win!");
+		System.out.println("Select a numbered house to Knock on!");
+		while(End == false) {
+			for(int i = 0; i < 10; i++) {
+				if(Homes[i].chosen == false) {
+					System.out.println("There is a " + Homes[i].color + " house, numbered " + Homes[i].number + ".");
+				} 
+			}
+			System.out.println("You have " + treats + " treats.");
+			System.out.println("Which house would you like to approach?");
+			chosenHouse = in.nextInt();
+			if(Homes[chosenHouse].chosen == true) {
+				knock.knock();
+				System.out.println("You have already been here!");
+			} else
+				if(Homes[chosenHouse].ToT == false) {
+					knock.knock();
+					System.out.println("You have gotten a treat!");
+					treats++;
+					Homes[chosenHouse].chosen = true;
+				} else {
+					knock.knock();
+					System.out.println("You have been tricked! Game over!");
+					End = true;
+				}
+			if(treats == 5) {
+				System.out.println("You have won! Congrats!");
+				End = true;
+			}
+		}
+
+	}
+
+
+}
+
+class house{
+	String color;
+	boolean ToT;
+	int number;
+	boolean chosen;
+	house(String color, boolean ToT, int number, boolean chosen) {
+		this.color = color;
+		this.ToT = ToT;
+		this.number = number;
+		this.chosen = chosen;
+	}
+}
